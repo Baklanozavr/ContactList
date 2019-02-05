@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Contact List</title>
+</head>
+
+<body>
+<h1 align="center">Список контактов</h1>
+<hr/>
+
+<div align="center">
+    <form method="post" action="find">
+        <input type="text" name="stringForSearch" placeholder="Введите текст для поиска" size="30">
+        <button type="submit">Найти</button>
+    </form>
+</div>
+<br/>
+
+<table align="center" border="1">
+    <thead>
+    <tr>
+        <th width="300" align="center">Имя</th>
+        <th width="300" align="center">E-mail</th>
+        <th width="150" align="center">Телефон</th>
+        <th colspan="2"></th>
+    </tr>
+    </thead>
+
+    <tbody>
+    {{#contacts}}
+        <tr>
+            <td align="center">{{name}}</td>
+            <td align="center">{{email}}</td>
+            <td align="center">{{phone}}</td>
+            <td>
+                <button type="button">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Arbcom_ru_editing.svg/240px-Arbcom_ru_editing.svg.png"
+                         width="23" height="26"/>
+                </button>
+            </td>
+            <td>
+                <form method="post" action="delete">
+                    <input hidden id="idForDeletion" type="number" name="id" value={{id}}>
+                    <button type="submit" title="Удалить данный контакт">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/X_mark.svg/23px-X_mark.svg.png"
+                             width="23" height="26"/>
+                    </button>
+                </form>
+            </td>
+        </tr>
+    {{/contacts}}
+    {{^contacts}}
+        <tr><td colspan="4" align="center">Контактов не найдено</td></tr>
+    {{/contacts}}
+    </tbody>
+</table>
+<hr/>
+
+<div align="center">
+    <button id="showAddingDialog">Добавить новый контакт</button>
+</div>
+
+<dialog id="addNewContact">
+    <form method="post" action="main">
+        <section>
+            <p align="right"><label for="name">Имя:</label>
+                <input id="name" type="text" name="name" placeholder="Введите имя" required size="40"></p>
+            <p align="right"><label for="email">E-mail:</label>
+                <input id="email" type="text" name="email" placeholder="Введите e-mail" size="40"></p>
+            <p align="right"><label for="phone">Телефон:</label>
+                <input id="phone" type="text" name="phone" placeholder="Введите телефон" size="40"></p>
+        </section>
+        <p align="center">
+            <button type="submit">Добавить</button>
+            <button id="closeAddingDialog" type="reset">Отмена</button>
+        </p>
+    </form>
+</dialog>
+
+<dialog id="deleteContact">
+    <form method="post" action="delete">
+        <input hidden id="idForDeletion" type="number" name="id" value="">
+        <p align="center">Вы уверенны, что хотите удалить данный контакт?</p>
+        <p align="center">
+            <button type="submit">Удалить</button>
+            <button class="closeDeleteDialog" type="reset">Отмена</button>
+        </p>
+    </form>
+</dialog>
+
+<script type=text/javascript>
+var addingDialog = document.querySelector('#addNewContact');
+document.querySelector('#showAddingDialog').onclick = function() {
+    addingDialog.showModal();
+};
+document.querySelector('#closeAddingDialog').onclick = function() {
+    addingDialog.close();
+};
+</script>
+
+</body>
+</html>
